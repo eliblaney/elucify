@@ -1,6 +1,10 @@
+#[macro_use]
+extern crate rocket;
+
 use rocket_db_pools::{sqlx, Database};
 use chrono::{Utc, DateTime};
 use elucify::{model, Related};
+use serde::{Serialize, Deserialize};
 
 #[model]
 pub struct User {
@@ -20,7 +24,7 @@ pub struct Credentials {
 
 #[derive(Database)]
 #[database("my_database")]
-struct Db(sqlx::PgPool);
+pub struct Db(sqlx::PgPool);
 
 #[launch]
 fn rocket() -> _ {
