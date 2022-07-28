@@ -14,36 +14,40 @@ Elucify was created mostly because I found that most well established, robust Ru
 
 First, a `Db` struct must be defined at the crate level, like this example from the [Rocket documentation](https://api.rocket.rs/v0.5-rc/rocket_db_pools/index.html):
 
-    use rocket_db_pools::{sqlx, Database};
+```rust
+use rocket_db_pools::{sqlx, Database};
 
-    #[derive(Database)]
-    #[database("sqlite_logs")]
-    struct Logs(sqlx::SqlitePool);
-    
-    #[launch]
-    fn rocket() -> _ {
-        rocket::build().attach(Logs::init())
-    }
+#[derive(Database)]
+#[database("sqlite_logs")]
+pub struct Logs(sqlx::SqlitePool);
+
+#[launch]
+fn rocket() -> _ {
+		rocket::build().attach(Logs::init())
+}
+```
 
 ### Creating Models
 
 Next, models can be defined easily from anywhere as so:
 
-    #[model]
-    pub struct User {
-        pub username: String,
-        pub email: String,
-        pub created_at: DateTime<Utc>,
-        pub last_login: DateTime<Utc>,
-    }
-    
-    #[model(table = "credentials")]
-    #[derive(Related)]
-    pub struct Credentials {
-        #[foreign(type = "User")]
-        pub user_id: i32,
-        pub password: String,
-    }
+```rust
+#[model]
+pub struct User {
+		pub username: String,
+		pub email: String,
+		pub created_at: DateTime<Utc>,
+		pub last_login: DateTime<Utc>,
+}
+
+#[model(table = "credentials")]
+#[derive(Related)]
+pub struct Credentials {
+		#[foreign(type = "User")]
+		pub user_id: i32,
+		pub password: String,
+}
+```
 
 Notice that the `id` column is omitted, as it is added implicitly. Structs that have foreign keys (such as `user_id`) must derive `Related`. By default, table names are the equivalent to the lowercase struct name appended with an 's', so that `User` references the table `users`.
 
