@@ -1,0 +1,18 @@
+[package]
+name = "elucify"
+version = "0.1.0"
+edition = "2021"
+description = "Simple SQL Database ORM"
+authors = ["Eli Blaney <eliblaney@gmail.com>"]
+repository = "https://eliblaney.com/eliblaney/elucify"
+readme = "README.md"
+license-file = "LICENSE"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+syn = "1.0"
+quote = "1.0"
+proc-macro2 = { version = "1.0.36", default-features = false }
+indexmap = "1.8.2"
