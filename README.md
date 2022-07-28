@@ -55,37 +55,41 @@ Notice that the `id` column is omitted, as it is added implicitly. Structs that 
 
 When a model is created in Elucify, the following functions are given:
 
-    // Return table name (such as "users")
-		table() -> &'static str
+```rust
+// Return table name (such as "users")
+table() -> &'static str
 
-		// Find the model in the database with given id
-		find(id: i32, mut db: Connection<Db>) -> (Option<Self>, Connection<Db>)
+// Find the model in the database with given id
+find(id: i32, mut db: Connection<Db>) -> (Option<Self>, Connection<Db>)
 
-		// Find the first model with some field constraint
-		find_where(field: &str, value: &String, mut db: Connection<Db>) -> (Option<Self>, Connection<Db>)
+// Find the first model with some field constraint
+find_where(field: &str, value: &String, mut db: Connection<Db>) -> (Option<Self>, Connection<Db>)
 
-		// Identical to find(i32, Connection<Db>)
-		read(id: i32, mut db: Connection<Db>) -> (Option<Self>, Connection<Db>)
+// Identical to find(i32, Connection<Db>)
+read(id: i32, mut db: Connection<Db>) -> (Option<Self>, Connection<Db>)
 
-		// Delete a record from the database
-		delete(id: i32, mut db: Connection<Db>) -> (Result<u64, Error>, Connection<Db>)
+// Delete a record from the database
+delete(id: i32, mut db: Connection<Db>) -> (Result<u64, Error>, Connection<Db>)
 
-    // Construct a new model record from given data
-		new(...fields) -> Self
+// Construct a new model record from given data
+new(...fields) -> Self
 
-		// Insert or update a record to the database
-		save(&self, mut db: Connection<Db>) -> (Option<Self>, Connection<Db>)
+// Insert or update a record to the database
+save(&self, mut db: Connection<Db>) -> (Option<Self>, Connection<Db>)
 
-		// Convert a model record to JSON
-		json(self) -> rocket::serde::json::Json<Self>
+// Convert a model record to JSON
+json(self) -> rocket::serde::json::Json<Self>
+```
 
 For models that are related to other models, additional functions are implemented. With the example of `User` and `Credentials`, the following is given:
 
-		// Get all credentials records that reference this user
-    user.find_credentials(&self, mut db: Connection<Db>) -> (Vec<Credentials>, Connection<Db>)
+```rust
+// Get all credentials records that reference this user
+user.find_credentials(&self, mut db: Connection<Db>) -> (Vec<Credentials>, Connection<Db>)
 
-		// Get the user record associated with these credentials
-		credentials.get_user(&self, mut db: Connection<Db>) -> (Option<User>, Connection<Db>)
+// Get the user record associated with these credentials
+credentials.get_user(&self, mut db: Connection<Db>) -> (Option<User>, Connection<Db>)
+```
 
 ## Future Work
 
