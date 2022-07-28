@@ -34,18 +34,18 @@ Next, models can be defined easily from anywhere as so:
 ```rust
 #[model]
 pub struct User {
-		pub username: String,
-		pub email: String,
-		pub created_at: DateTime<Utc>,
-		pub last_login: DateTime<Utc>,
+	pub username: String,
+	pub email: String,
+	pub created_at: DateTime<Utc>,
+	pub last_login: DateTime<Utc>,
 }
 
 #[model(table = "credentials")]
 #[derive(Related)]
 pub struct Credentials {
-		#[foreign(type = "User")]
-		pub user_id: i32,
-		pub password: String,
+	#[foreign(type = "User")]
+	pub user_id: i32,
+	pub password: String,
 }
 ```
 
